@@ -3,7 +3,7 @@ using UnityEngine;
 public class PlayerGun : MonoBehaviour
 {
     [SerializeField] Transform firePoint;
-
+    [SerializeField] private GameObject bulletParticlePrefab;
     private Camera mainCamera;
 
 
@@ -15,6 +15,7 @@ public class PlayerGun : MonoBehaviour
     private void Update()
     {
         AimAtMouse();
+        HandleShooting();
     }
 
     private void AimAtMouse()
@@ -29,12 +30,12 @@ public class PlayerGun : MonoBehaviour
     {
         if(Input.GetMouseButtonDown(0))
         {
-            //shoot
+            Shoot();
         }
     }
 
     void Shoot()
     {
-
+        Instantiate(bulletParticlePrefab, firePoint.position, firePoint.rotation);
     }
 }

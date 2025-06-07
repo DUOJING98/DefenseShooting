@@ -1,32 +1,27 @@
 using UnityEngine;
 
-public class PlayerDrift : MonoBehaviour
+public class PlayerSineDrift : MonoBehaviour
 {
-    [SerializeField] float driftRadius = 0.5f;
-    [SerializeField] float driftSpeed = 1f;
+    [SerializeField] private float amplitudeX = 0.5f; // 左右摆动幅度
+    [SerializeField] private float amplitudeY = 0.3f; // 上下漂动幅度
+    [SerializeField] private float frequencyX = 1f;   // 左右摆动频率
+    [SerializeField] private float frequencyY = 1.5f; // 上下漂动频率
 
     private Vector3 startPos;
-    private Vector3 TargetOffset;
+    private float timeCounter;
 
-    private void Start()
+    void Start()
     {
         startPos = transform.position;
-        PickNewTargetOffset();
     }
 
-    private void Update()
+    void Update()
     {
-        transform.position  = Vector3.Lerp(transform.position, startPos+TargetOffset, driftRadius*Time.deltaTime);
-        if(Vector3.Distance(transform.position, startPos + TargetOffset) < 0.05f)
-        {
-            PickNewTargetOffset();
-        }
-    }
+        timeCounter += Time.deltaTime;
 
-    void PickNewTargetOffset()
-    {
-        float offsetX  = Random.Range(-driftRadius, driftRadius);
-        float offsetY  = Random.Range(-driftRadius, driftRadius);
-        TargetOffset = new Vector3(offsetY, offsetX, 0);
+        float offsetX = Mathf.Cos(timeCounter * frequencyX) * amplitudeX;
+        float offsetY = Mathf.Sin(timeCounter * frequencyY) * amplitudeY;
+
+        transform.position = startPos + new Vector3(offsetX, offsetY, 0f);
     }
 }
