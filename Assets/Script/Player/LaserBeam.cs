@@ -3,6 +3,8 @@ using UnityEngine;
 public class LaserBeam : MonoBehaviour
 {
     [SerializeField] float duration = 0.5f;
+    [SerializeField] float baseWidth = 0.2f;
+    [SerializeField] float maxWidth = 1f;
 
     private float timer;
     private LineRenderer Lr;
@@ -17,17 +19,25 @@ public class LaserBeam : MonoBehaviour
 
     public void SetPower(float chargeRatio)
     {
-        float width = Mathf.Lerp(0.2f,1.0f,chargeRatio);
-        Lr.startWidth = width;
-        Lr.endWidth = width;
+        float width = Mathf.Lerp(baseWidth, maxWidth, chargeRatio);
 
-        bx.size = new Vector2(bx.size.x, width);
+        if (Lr != null)
+        {
+            Lr.startWidth = width;
+            Lr.endWidth = width;
+        }
+
+        if (bx != null)
+        {
+            bx.size = new Vector2(bx.size.x, width);
+        }
+
     }
 
     private void Update()
     {
-        timer+= Time.deltaTime;
-        if(timer>duration)
+        timer += Time.deltaTime;
+        if (timer >= duration)
         {
             Destroy(gameObject);
         }

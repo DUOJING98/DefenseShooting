@@ -21,6 +21,7 @@ public class PlayerGun : MonoBehaviour
     private void Start()
     {
         mainCamera = Camera.main;
+        //FireLaserBeam(2f);
     }
 
     private void Update()
@@ -39,7 +40,7 @@ public class PlayerGun : MonoBehaviour
 
     void HandleShooting()
     {
-      if(Input.GetMouseButton(0))
+      if(Input.GetMouseButtonDown(0))
         {
             StartCharging();
         }
@@ -90,6 +91,8 @@ public class PlayerGun : MonoBehaviour
 
     void FireLaserBeam(float chargeRatio)
     {
+
+        
         GameObject laser = Instantiate(LaserBeamPrefab, firePoint.position, firePoint.rotation);
         LaserBeam laserSC = laser.GetComponent<LaserBeam>();
         if(laserSC != null)
