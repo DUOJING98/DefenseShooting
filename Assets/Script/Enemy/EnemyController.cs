@@ -9,8 +9,5 @@ public class EnemyController : MonoBehaviour
         transform.Translate(Vector2.left*moveSpeed*Time.deltaTime);
     }
 
-    private void OnBecameInvisible()
-    {
-        //Destroy(gameObject);
-    }
+    
 }

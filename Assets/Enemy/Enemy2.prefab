@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 510424987860120721}
   - component: {fileID: 5956215087434343071}
   - component: {fileID: 2325955493884926615}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Ship2_0
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -161,7 +161,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4005182473118188180}
   - component: {fileID: 753059682216502628}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Enemy2
   m_TagString: Enemy
   m_Icon: {fileID: 0}
