@@ -5,32 +5,35 @@ public class futa : MonoBehaviour
     public float rotateSpeed = 200f;
     public float targetAngle = 33f;
     private float originalAngle;
-    private bool returning = false;
+    private float currentZ;
+    private bool opening = false;
+    private bool closing = false;
 
     void Start()
     {
         originalAngle = transform.eulerAngles.z;
+        currentZ = originalAngle;
     }
 
     void Update()
     {
-        float currentZ = transform.eulerAngles.z;
-        // 转换到 -180 到 180 区间，方便旋转比较
-        if (currentZ > 180f) currentZ -= 360f;
-
-        // 按住右键时：旋转到目标角度
-        if (Input.GetMouseButton(1))
+        if (opening)
         {
-            float angle = Mathf.MoveTowardsAngle(currentZ, targetAngle, rotateSpeed * Time.deltaTime);
-            transform.eulerAngles = new Vector3(0, 0, angle);
-            returning = false;
+            currentZ = Mathf.MoveTowardsAngle(currentZ, targetAngle, rotateSpeed * Time.deltaTime);
+            transform.eulerAngles = new Vector3(0, 0, currentZ);
+            if (Mathf.Abs(Mathf.DeltaAngle(currentZ, targetAngle)) < 0.5f)
+                opening = false;
         }
-        // 松开右键时：返回原始角度
-        else
+        else if (closing)
         {
-            float angle = Mathf.MoveTowardsAngle(currentZ, originalAngle, rotateSpeed * Time.deltaTime);
-            transform.eulerAngles = new Vector3(0, 0, angle);
-            returning = true;
+            currentZ = Mathf.MoveTowardsAngle(currentZ, originalAngle, rotateSpeed * Time.deltaTime);
+            transform.eulerAngles = new Vector3(0, 0, currentZ);
+            if (Mathf.Abs(Mathf.DeltaAngle(currentZ, originalAngle)) < 0.5f)
+                closing = false;
         }
     }
+
+    public void Open() => opening = true;
+    public void Close() => closing = true;
+    public bool IsOpened() => Mathf.Abs(Mathf.DeltaAngle(currentZ, targetAngle)) < 1f;
 }
