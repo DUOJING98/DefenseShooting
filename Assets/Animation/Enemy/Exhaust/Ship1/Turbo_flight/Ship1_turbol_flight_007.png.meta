@@ -160,7 +160,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Ship1_turbol_flight_007_0: -3641378716570987835
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

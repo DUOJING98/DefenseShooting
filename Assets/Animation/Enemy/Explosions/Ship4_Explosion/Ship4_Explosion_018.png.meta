@@ -935,7 +935,39 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Ship4_Explosion_018_0: -3872745974121849018
+      Ship4_Explosion_018_1: -339981244853903889
+      Ship4_Explosion_018_10: -6357387571562116616
+      Ship4_Explosion_018_11: 979080347437845234
+      Ship4_Explosion_018_12: 7139150834555577712
+      Ship4_Explosion_018_13: -3813277418348100605
+      Ship4_Explosion_018_14: -3465211666737727427
+      Ship4_Explosion_018_15: 4252262509235185508
+      Ship4_Explosion_018_16: -6613081490812478087
+      Ship4_Explosion_018_17: -6266485004809653164
+      Ship4_Explosion_018_18: 1482272820049616154
+      Ship4_Explosion_018_19: 2545398597733365345
+      Ship4_Explosion_018_2: -661218971364949856
+      Ship4_Explosion_018_20: -8448563060745079881
+      Ship4_Explosion_018_21: -9131591071121025707
+      Ship4_Explosion_018_22: 7906837909675305405
+      Ship4_Explosion_018_23: 1848067390495122355
+      Ship4_Explosion_018_24: 4333245392641258263
+      Ship4_Explosion_018_25: -3623529721659756424
+      Ship4_Explosion_018_26: 5067066682861180924
+      Ship4_Explosion_018_27: -9147119093771650025
+      Ship4_Explosion_018_28: -3216584947615894241
+      Ship4_Explosion_018_29: 8808951746200782093
+      Ship4_Explosion_018_3: -1380540961550064668
+      Ship4_Explosion_018_30: 1875592082362400617
+      Ship4_Explosion_018_31: 7809928406707370233
+      Ship4_Explosion_018_4: 6931681722846765324
+      Ship4_Explosion_018_5: 5586203154319894190
+      Ship4_Explosion_018_6: 45893059045937430
+      Ship4_Explosion_018_7: -6185068617658992387
+      Ship4_Explosion_018_8: 1274329714015612498
+      Ship4_Explosion_018_9: 2549271948310503387
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

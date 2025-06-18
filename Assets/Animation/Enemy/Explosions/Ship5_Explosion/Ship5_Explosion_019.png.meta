@@ -735,7 +735,31 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Ship5_Explosion_019_0: 5128844850241599213
+      Ship5_Explosion_019_1: -1004474517408750332
+      Ship5_Explosion_019_10: -3923484784807597297
+      Ship5_Explosion_019_11: -3476465781104599646
+      Ship5_Explosion_019_12: 6076532366394230228
+      Ship5_Explosion_019_13: 5153037642785068022
+      Ship5_Explosion_019_14: -4334973807994028553
+      Ship5_Explosion_019_15: -853231306426475726
+      Ship5_Explosion_019_16: -4133030546545495234
+      Ship5_Explosion_019_17: 6997635226166500486
+      Ship5_Explosion_019_18: 9092524858957872765
+      Ship5_Explosion_019_19: -268503177129758525
+      Ship5_Explosion_019_2: -5175512433639406195
+      Ship5_Explosion_019_20: 4808387802668483668
+      Ship5_Explosion_019_21: -6452628046754982468
+      Ship5_Explosion_019_22: 7742567138823299413
+      Ship5_Explosion_019_23: -5625379026552070562
+      Ship5_Explosion_019_3: -1160625939685476184
+      Ship5_Explosion_019_4: -3864754449370132995
+      Ship5_Explosion_019_5: 3769464533249213343
+      Ship5_Explosion_019_6: 8526857921476920146
+      Ship5_Explosion_019_7: -8562555346675176030
+      Ship5_Explosion_019_8: 7527970034835318539
+      Ship5_Explosion_019_9: 1285787139665342371
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

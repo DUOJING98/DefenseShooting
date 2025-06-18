@@ -160,7 +160,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Ship2_Explosion_015_0: -3382149091219164778
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
