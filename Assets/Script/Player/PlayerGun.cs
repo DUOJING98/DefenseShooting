@@ -1,4 +1,5 @@
-using UnityEngine;
+ï»¿using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerGun : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class PlayerGun : MonoBehaviour
     [SerializeField] Transform NormalfirePoint;
     [SerializeField] Transform LaserfirePoint;
     [SerializeField] GameObject hdrLaserPreviewPrefab;
+    [SerializeField] private Image chargeBarFill;  // UIå›¾
 
     [Header("Head Control")]
     [SerializeField] futa headController;
@@ -34,6 +36,7 @@ public class PlayerGun : MonoBehaviour
     private bool previewShown = false;
 
     private GameObject previewLaserInstance;
+    private bool futaOpened = false;
 
     private void Start()
     {
@@ -43,7 +46,7 @@ public class PlayerGun : MonoBehaviour
 
     private void Update()
     {
-        AimAtMouse(); // ÆÕÍ¨×Óµ¯·½Ïò
+        AimAtMouse(); // æ™®é€šå­å¼¹æ–¹å‘
         HandleShooting();
     }
 
@@ -75,43 +78,54 @@ public class PlayerGun : MonoBehaviour
 
     private void StartCharging()
     {
+       
         isCharging = true;
         chargeTime = 0.0f;
         previewShown = false;
         headOpenTriggered = false;
+        futaOpened = false;
 
         chargeParticle.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+
+        if (chargeBarFill != null)
+        {
+            chargeBarFill.fillAmount = 0f;
+           
+        }
     }
 
     private void UpdateCharging()
     {
         chargeTime += Time.deltaTime;
         chargeTime = Mathf.Min(chargeTime, maxChargeTime);
+        
+        if (chargeBarFill != null)
+        {
+            float uiratio =chargeTime/maxChargeTime;
+            chargeBarFill.fillAmount = uiratio;
 
-        // ´ïµ½ÐîÁ¦ãÐÖµºóÕ¹¿ªÍ·²¿£¨Ö»Ö´ÐÐÒ»´Î£©
+        }
         if (!headOpenTriggered && chargeTime >= chargeThresGold)
         {
             headOpenTriggered = true;
             headController.Open();
+            futaOpened = true;
         }
 
-        // Í·²¿Ã»Õ¹¿ªÍê³É¾Í²»¼ÌÐøÔ¤ÀÀÏßºÍÁ£×Ó
         if (!headController.IsOpened()) return;
 
-        // ¹Ì¶¨Á£×ÓÎ»ÖÃ
         chargeParticle.transform.position = LaserfirePoint.position;
         chargeParticle.transform.rotation = Quaternion.identity;
 
-        // Æô¶¯Á£×Ó£¨Ö»¿ªÒ»´Î£©
         if (!chargeParticle.isPlaying)
             chargeParticle.Play();
 
-        // Á£×ÓËÙ¶È°´ÐîÁ¦½ø¶È±ä»¯
         float ratio = chargeTime / maxChargeTime;
         var emission = chargeParticle.emission;
         emission.rateOverTime = Mathf.Lerp(minRate, maxRate, ratio);
 
-        // ´´½¨Ô¤ÀÀ¼¤¹â
+       
+
         if (!previewShown && chargeTime >= chargeThresGold + 0.1f)
         {
             previewLaserInstance = Instantiate(hdrLaserPreviewPrefab);
@@ -121,7 +135,6 @@ public class PlayerGun : MonoBehaviour
             previewShown = true;
         }
 
-        // Ô¤ÀÀÏß¿í¶È±ä´Ö + ÉÁË¸
         if (previewLaserInstance != null)
         {
             previewLaserInstance.transform.position = LaserfirePoint.position;
@@ -157,9 +170,9 @@ public class PlayerGun : MonoBehaviour
         headOpenTriggered = false;
         previewShown = false;
 
-        if (chargeTime >= chargeThresGold)
+        if (chargeTime >= maxChargeTime)
         {
-            FireHDRLaser(ratio);
+            FireHDRLaser(1f);
         }
         else
         {
@@ -167,7 +180,19 @@ public class PlayerGun : MonoBehaviour
         }
 
         chargeParticle.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
-        headController.Close();
+
+        if (futaOpened && headController.IsOpened())
+        {
+            headController.Close();
+        }
+
+        futaOpened = false;
+
+        if (chargeBarFill != null)
+        {
+            chargeBarFill.fillAmount = 0f;
+            
+        }
     }
 
     private void FireNormalBullet()

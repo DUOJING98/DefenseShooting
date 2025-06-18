@@ -1,20 +1,24 @@
-using UnityEngine;
-using UnityEngine.SceneManagement; // ÓÃÓÚÇĞ»»³¡¾°
+ï»¿using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class PlayerHealth : MonoBehaviour
 {
-    [SerializeField] private int maxHealth = 3;
+    [SerializeField] private int maxHealth = 10;
     private int currentHealth;
+
+    [SerializeField] private Image hpBarFill; // â¬… è¡€æ¡ UIï¼ˆå¡«å……å›¾ï¼‰
 
     private void Start()
     {
         currentHealth = maxHealth;
+        UpdateUI();
     }
 
     public void TakeDamage(int damage)
     {
         currentHealth -= damage;
-        Debug.Log("Player HP: " + currentHealth);
+        UpdateUI();
 
         if (currentHealth <= 0)
         {
@@ -22,11 +26,17 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
+    void UpdateUI()
+    {
+        if (hpBarFill != null)
+        {
+            hpBarFill.fillAmount = (float)currentHealth / maxHealth;
+        }
+    }
+
     void Die()
     {
-        Debug.Log("Game Over!");
-        // Í£Ö¹ÓÎÏ· / µ¯³ö½áÊø»­Ãæ / »ØÖ÷²Ëµ¥
-        // ÕâÀïÖ»ÊÇÖØÔØ³¡¾°Ê¾Àı
+        Debug.Log("GameOver");
         //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }

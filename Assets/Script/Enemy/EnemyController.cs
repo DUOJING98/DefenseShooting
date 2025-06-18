@@ -10,16 +10,18 @@ public class EnemyController : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player"))
+        Transform root = collision.transform.root;
+        if (root.CompareTag("Player"))
         {
-            PlayerHealth player = collision.GetComponent<PlayerHealth>();
+            PlayerHealth player = root.GetComponent<PlayerHealth>();
             if (player != null)
             {
                 player.TakeDamage(1);
             }
 
-            Destroy(gameObject); // 撞到就爆
+            Destroy(gameObject); // 敌人撞人后消失
         }
     }
+
 
 }
