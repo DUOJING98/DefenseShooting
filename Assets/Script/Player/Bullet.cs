@@ -6,23 +6,22 @@ public class Bullet : MonoBehaviour
 
     private void Start()
     {
-        GetComponent<Rigidbody2D>().linearVelocity = transform.right * speed; // ? ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+        GetComponent<Rigidbody2D>().velocity = transform.right * speed;
         Destroy(gameObject, 2f);
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D other)
     {
-
-        if (collision.CompareTag("Enemy"))
+        if (other.CompareTag("Enemy"))
         {
-            EnemyHealth enemy = collision.GetComponent<EnemyHealth>();
+            Enemy enemy = other.GetComponent<Enemy>();
             if (enemy != null)
             {
-                enemy.TakeDamage(1); // æ¯é¢—å­å¼¹æ‰£ 1
+                enemy.Die();
             }
 
-            Destroy(gameObject);
+            Destroy(gameObject); // ×Óµ¯Ïú»Ù
+
         }
     }
-
 }
