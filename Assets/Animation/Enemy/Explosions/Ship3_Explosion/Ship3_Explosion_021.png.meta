@@ -335,7 +335,15 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Ship3_Explosion_021_0: -1606235905656691647
+      Ship3_Explosion_021_1: 3212362108147436080
+      Ship3_Explosion_021_2: 2583435099294594650
+      Ship3_Explosion_021_3: -7812440247753935587
+      Ship3_Explosion_021_4: -5764387477397675914
+      Ship3_Explosion_021_5: -2820877595331736489
+      Ship3_Explosion_021_6: 3469251431838335210
+      Ship3_Explosion_021_7: 7335463438172592449
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
