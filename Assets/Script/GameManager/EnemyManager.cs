@@ -13,6 +13,10 @@ public class EnemyManager : MonoBehaviour
 
     private void Update()
     {
+        if (spawnInterval >= 0.6f)
+        {
+            spawnInterval -= Time.deltaTime * 0.05f;
+        }
         timer += Time.deltaTime;
         if (timer >= spawnInterval)
         {
@@ -31,7 +35,7 @@ public class EnemyManager : MonoBehaviour
         float xMin = spawnAreaTopLeft.position.x;
         float xMax = spawnAreaBottomRight.position.x;
         float yMax = spawnAreaTopLeft.position.y;
-        float yMin = spawnAreaBottomRight.position.y;
+        float yMin = spawnAreaBottomRight.position.y + 0.5f;
 
         float x = Random.Range(xMin, xMax);
         float y = Random.Range(yMin, yMax);
