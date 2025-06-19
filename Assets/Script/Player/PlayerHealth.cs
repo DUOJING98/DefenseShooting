@@ -9,8 +9,10 @@ public class PlayerHealth : MonoBehaviour
 
     [SerializeField] private Image hpBarFill; // ⬅ 血条 UI（填充图）
 
+    public GameObject GameOverUI;
     private void Start()
     {
+        Time.timeScale = 1;
         currentHealth = maxHealth;
         UpdateUI();
     }
@@ -38,5 +40,25 @@ public class PlayerHealth : MonoBehaviour
     {
         Debug.Log("GameOver");
         //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+    private void Update()
+    {
+        if (currentHealth<=0)
+        {
+            Time.timeScale = 0;
+            GameOverUI.SetActive(true);
+        }
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
+    }
+    public void Restart()
+    {
+        SceneManager.LoadScene("GameScene");
+    }
+    public void Quit()
+    {
+        Application.Quit();
     }
 }
