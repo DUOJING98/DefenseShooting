@@ -193,6 +193,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 2
+  boom: {fileID: 7110375780151841835, guid: 1771a2ccae636e94bb04e6f7f60110db, type: 3}
 --- !u!114 &8803121261648388960
 MonoBehaviour:
   m_ObjectHideFlags: 0

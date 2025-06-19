@@ -46,7 +46,10 @@ public class PlayerGun : MonoBehaviour
 
     private void Update()
     {
-        AimAtMouse(); // 普通子弹方向
+        if (Time.timeScale != 0)
+        {
+            AimAtMouse(); // 普通子弹方向
+        }
         HandleShooting();
     }
 
@@ -78,7 +81,7 @@ public class PlayerGun : MonoBehaviour
 
     private void StartCharging()
     {
-       
+
         isCharging = true;
         chargeTime = 0.0f;
         previewShown = false;
@@ -90,7 +93,7 @@ public class PlayerGun : MonoBehaviour
         if (chargeBarFill != null)
         {
             chargeBarFill.fillAmount = 0f;
-           
+
         }
     }
 
@@ -98,10 +101,10 @@ public class PlayerGun : MonoBehaviour
     {
         chargeTime += Time.deltaTime;
         chargeTime = Mathf.Min(chargeTime, maxChargeTime);
-        
+
         if (chargeBarFill != null)
         {
-            float uiratio =chargeTime/maxChargeTime;
+            float uiratio = chargeTime / maxChargeTime;
             chargeBarFill.fillAmount = uiratio;
 
         }
@@ -124,7 +127,7 @@ public class PlayerGun : MonoBehaviour
         var emission = chargeParticle.emission;
         emission.rateOverTime = Mathf.Lerp(minRate, maxRate, ratio);
 
-       
+
 
         if (!previewShown && chargeTime >= chargeThresGold + 0.1f)
         {
@@ -191,7 +194,7 @@ public class PlayerGun : MonoBehaviour
         if (chargeBarFill != null)
         {
             chargeBarFill.fillAmount = 0f;
-            
+
         }
     }
 
