@@ -7,6 +7,8 @@ public class EnemyManager : MonoBehaviour
     [SerializeField] float startSpawnInterval = 2f; // ｳｼｼ荳・
     [SerializeField] float minSpawnInterval = 0.2f; // ﾗ錞・荳・
     [SerializeField] float intervalDecreaseRate = 0.1f; // ﾃｿﾃ・ﾙｶ猖ﾙ
+    [SerializeField] Transform spawnAreaTopLeft;
+    [SerializeField] Transform spawnAreaBottomRight;
     private float spawnInterval;
     private float elapsedTime = 0f;
 
