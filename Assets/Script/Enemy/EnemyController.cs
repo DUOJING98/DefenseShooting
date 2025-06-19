@@ -3,7 +3,9 @@ using UnityEngine;
 public class EnemyController : MonoBehaviour
 {
     [SerializeField] float moveSpeed = 2f;
-    public GameObject boom;
+    //public GameObject boom;
+    [Header("Explosion Effect")]
+    public GameObject explosionPrefab;
 
     private void Update()
     {
@@ -19,10 +21,17 @@ public class EnemyController : MonoBehaviour
             {
                 player.TakeDamage(1);
             }
-            Instantiate(boom, transform.position, Quaternion.identity);
-            Destroy(gameObject); // 敌人撞人后消失
+            //Instantiate(boom, transform.position, Quaternion.identity);
+            Die();
         }
     }
-
+    public void Die()
+    {
+        if (explosionPrefab != null)
+        {
+            Instantiate(explosionPrefab, transform.position, Quaternion.identity);
+        }
+        Destroy(gameObject);
+    }
 
 }
