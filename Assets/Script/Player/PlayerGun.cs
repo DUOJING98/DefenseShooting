@@ -1,22 +1,17 @@
-ï»¿using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine;
 
 public class PlayerGun : MonoBehaviour
 {
     [Header("Fire point & Prefab")]
     [SerializeField] GameObject normalBulletPrefab;
     [SerializeField] GameObject hdrLaserRectPrefab;
-    [SerializeField] Transform NormalfirePoint;
-    [SerializeField] Transform LaserfirePoint;
+    [SerializeField] Transform firePoint;
     [SerializeField] GameObject hdrLaserPreviewPrefab;
-    [SerializeField] private Image chargeBarFill;  // UIå›¾
-
-    [Header("Head Control")]
-    [SerializeField] futa headController;
+    private GameObject previewLaserInstance;
 
     [Header("Time Setting")]
     [SerializeField] float chargeThresGold = 0.3f;
-    [SerializeField] float maxChargeTime = 3f;
+    [SerializeField] float maxChargeTime = 2f;
 
     [Header("Charge FX")]
     [SerializeField] ParticleSystem chargeParticle;
@@ -32,11 +27,9 @@ public class PlayerGun : MonoBehaviour
     private Camera mainCamera;
     private float chargeTime = 0.0f;
     private bool isCharging = false;
-    private bool headOpenTriggered = false;
-    private bool previewShown = false;
 
-    private GameObject previewLaserInstance;
-    private bool futaOpened = false;
+    private float previewDelay = 0.5f;
+    private bool previewShown = false;
 
     private void Start()
     {
@@ -46,7 +39,7 @@ public class PlayerGun : MonoBehaviour
 
     private void Update()
     {
-        AimAtMouse(); // æ™®é€šå­å¼¹æ–¹å‘
+        AimAtMouse();
         HandleShooting();
     }
 
@@ -58,105 +51,62 @@ public class PlayerGun : MonoBehaviour
         transform.rotation = Quaternion.Euler(0, 0, angle);
     }
 
-    private void HandleShooting()
+    void HandleShooting()
     {
         if (Input.GetMouseButtonDown(0))
         {
             StartCharging();
         }
-
         if (Input.GetMouseButton(0) && isCharging)
         {
             UpdateCharging();
         }
-
         if (Input.GetMouseButtonUp(0) && isCharging)
         {
             ReleaseCharge();
         }
     }
 
-    private void StartCharging()
+    void StartCharging()
     {
-       
         isCharging = true;
         chargeTime = 0.0f;
         previewShown = false;
-        headOpenTriggered = false;
-        futaOpened = false;
 
         chargeParticle.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
-
-        if (chargeBarFill != null)
-        {
-            chargeBarFill.fillAmount = 0f;
-           
-        }
+        chargeParticle.Play();
     }
 
     private void UpdateCharging()
     {
         chargeTime += Time.deltaTime;
         chargeTime = Mathf.Min(chargeTime, maxChargeTime);
-        
-        if (chargeBarFill != null)
-        {
-            float uiratio =chargeTime/maxChargeTime;
-            chargeBarFill.fillAmount = uiratio;
-
-        }
-        if (!headOpenTriggered && chargeTime >= chargeThresGold)
-        {
-            headOpenTriggered = true;
-            headController.Open();
-            futaOpened = true;
-        }
-
-        if (!headController.IsOpened()) return;
-
-        chargeParticle.transform.position = LaserfirePoint.position;
-        chargeParticle.transform.rotation = Quaternion.identity;
-
-        if (!chargeParticle.isPlaying)
-            chargeParticle.Play();
 
         float ratio = chargeTime / maxChargeTime;
         var emission = chargeParticle.emission;
         emission.rateOverTime = Mathf.Lerp(minRate, maxRate, ratio);
 
-       
-
-        if (!previewShown && chargeTime >= chargeThresGold + 0.1f)
+        // Âú×ãÑÓ³ÙÌõ¼þºóÉú³ÉÔ¤ÀÀ¼¤¹â
+        if (!previewShown && chargeTime >= previewDelay)
         {
-            previewLaserInstance = Instantiate(hdrLaserPreviewPrefab);
-            previewLaserInstance.transform.position = LaserfirePoint.position;
-            previewLaserInstance.transform.rotation = Quaternion.identity;
+            previewLaserInstance = Instantiate(hdrLaserPreviewPrefab, firePoint.position, firePoint.rotation);
             previewLaserInstance.transform.localScale = new Vector3(laserLength, 0.05f, 1);
             previewShown = true;
         }
 
-        if (previewLaserInstance != null)
+        // ¸üÐÂÔ¤ÀÀ¼¤¹âµÄÎ»ÖÃ¡¢Ðý×ªºÍ¿í¶È£¨½öÔÚÏÔÊ¾ºó²Å±ä´Ö£©
+        if (previewLaserInstance != null && previewShown)
         {
-            previewLaserInstance.transform.position = LaserfirePoint.position;
-            previewLaserInstance.transform.rotation = Quaternion.identity;
-
-            float adjustedRatio = (chargeTime - chargeThresGold) / (maxChargeTime - chargeThresGold);
+            float adjustedRatio = (chargeTime - previewDelay) / (maxChargeTime - previewDelay);
             float width = Mathf.Lerp(0.05f, 0.5f, Mathf.Clamp01(adjustedRatio));
-            previewLaserInstance.transform.localScale = new Vector3(laserLength, width, 1);
 
-            if (ratio >= 1f)
-            {
-                var sprite = previewLaserInstance.GetComponent<SpriteRenderer>();
-                if (sprite != null)
-                {
-                    float glow = Mathf.PingPong(Time.time * 5f, 1f);
-                    sprite.color = new Color(1f, 1f, 1f, 0.5f + glow * 0.5f);
-                }
-            }
+            previewLaserInstance.transform.position = firePoint.position;
+            previewLaserInstance.transform.rotation = firePoint.rotation;
+            previewLaserInstance.transform.localScale = new Vector3(laserLength, width, 1);
         }
     }
 
-    private void ReleaseCharge()
+    void ReleaseCharge()
     {
         float ratio = chargeTime / maxChargeTime;
 
@@ -165,51 +115,40 @@ public class PlayerGun : MonoBehaviour
             Destroy(previewLaserInstance);
             previewLaserInstance = null;
         }
-
-        isCharging = false;
-        headOpenTriggered = false;
         previewShown = false;
 
-        if (chargeTime >= maxChargeTime)
+        if (chargeTime >= chargeThresGold)
         {
-            FireHDRLaser(1f);
+            FireHDRLaser(ratio);
         }
         else
         {
             FireNormalBullet();
         }
 
+        isCharging = false;
         chargeParticle.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
-
-        if (futaOpened && headController.IsOpened())
-        {
-            headController.Close();
-        }
-
-        futaOpened = false;
-
-        if (chargeBarFill != null)
-        {
-            chargeBarFill.fillAmount = 0f;
-            
-        }
     }
 
-    private void FireNormalBullet()
+    void FireNormalBullet()
     {
-        GameObject bullet = Instantiate(normalBulletPrefab, NormalfirePoint.position, NormalfirePoint.rotation);
+        GameObject bullet = Instantiate(normalBulletPrefab, firePoint.position, firePoint.rotation);
+        Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
+        // ¿É¼ÓÈë×Óµ¯ËÙ¶ÈÂß¼­
     }
 
-    private void FireHDRLaser(float chargeRatio)
+    void FireHDRLaser(float chargeRatio)
     {
         float width = Mathf.Lerp(minLaserWidth, maxLaserWidth, chargeRatio);
-        GameObject laser = Instantiate(hdrLaserRectPrefab, LaserfirePoint.position, Quaternion.identity);
+
+        GameObject laser = Instantiate(hdrLaserRectPrefab, firePoint.position, firePoint.rotation);
         laser.transform.localScale = new Vector3(laserLength, width, 1);
 
-        Vector2 center = (Vector2)LaserfirePoint.position + Vector2.right * (laserLength / 2f);
+        Vector2 center = (Vector2)firePoint.position + (Vector2)firePoint.right * (laserLength / 2f);
         Vector2 size = new Vector2(laserLength, width);
+        float angle = firePoint.eulerAngles.z;
 
-        Collider2D[] hits = Physics2D.OverlapBoxAll(center, size, 0f, enemyLayer);
+        Collider2D[] hits = Physics2D.OverlapBoxAll(center, size, angle, enemyLayer);
         foreach (var hit in hits)
         {
             Destroy(hit.gameObject);
